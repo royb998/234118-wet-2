@@ -30,11 +30,11 @@ decide_action_ili:
 
     cmpl $0, %eax
     jnz update_rip_ili
-    call old_ili_hadler
+    call old_ili_handler
     jmp end_ili
 
 update_rip_ili:
-    addq %r10, (%rbp)
+    addq %r10, 8(%rbp)
 
 end_ili:
     popq %rdi
