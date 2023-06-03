@@ -7,8 +7,8 @@ my_ili_handler:
     movq %rsp, %rbp
 
     pushq %rax
-    pushq %r8
     pushq %rbx
+    pushq %r8
     pushq %r10
 
     xor %rbx, %rbx
@@ -25,25 +25,39 @@ my_ili_handler:
 
 decide_action_ili:
     movq %rbx, %rdi
+    pushq %rcx
+    pushq %rdx
+    pushq %rsi
+    pushq %rdi
+    pushq %r8
+    pushq %r9
+    pushq %r10
+    pushq %r11
     call what_to_do
+    popq %r11
+    popq %r10
+    popq %r9
+    popq %r8
+    popq %rdi
+    popq %rsi
+    popq %rdx
+    popq %rcx
 
     cmpq $0, %rax
     jnz update_rip_ili
     popq %r10
-    popq %rbx
     popq %r8
+    popq %rbx
     popq %rax
     jmp *old_ili_handler
-    jmp end_ili
 
 update_rip_ili:
     movq %rax, %rdi
     addq %r10, 8(%rbp)
 
-end_ili:
     popq %r10
-    popq %rbx
     popq %r8
+    popq %rbx
     popq %rax
 
     movq %rbp, %rsp
